@@ -5,7 +5,7 @@
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
   "bin": {
-    "vue-plus-cli": "./bin.js"
+    "vant-cli": "./bin.js"
   },
   "engines": {
     "node": "^14.16.0 || >=16.0.0"

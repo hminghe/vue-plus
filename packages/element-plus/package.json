@@ -13,8 +13,8 @@
     "lib"
   ],
   "scripts": {
-    "build": "vue-plus-cli build",
-    "release": "vue-plus-cli release"
+    "build": "vant-cli build",
+    "release": "vant-cli release"
   },
   "author": "hminghe",
   "peerDependencies": {
