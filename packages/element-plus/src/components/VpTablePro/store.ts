@@ -288,6 +288,7 @@ export function createStore<T>(props: Readonly<VpTableProProps>, context: SetupC
     sortOrder.value = order
 
     emit('sort-change', data)
+    console.log('sort-change', data)
     return refresh(1)
   }
 
@@ -298,6 +299,7 @@ export function createStore<T>(props: Readonly<VpTableProProps>, context: SetupC
    */
   function sort(prop: string, order: SortOrder) {
     tableRef.value.sort(prop, order ?? '')
+    refresh(1)
   }
 
   // watch

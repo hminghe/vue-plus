@@ -1,6 +1,6 @@
 {
   "name": "@vue-plus/element-plus",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "element-plus 扩展组件包",
   "main": "lib/vant.cjs.js",
   "module": "es/index.mjs",

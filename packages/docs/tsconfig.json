@@ -1,0 +1,15 @@
+{
+  "extends": "../../tsconfig",
+  "compilerOptions": {
+    "allowJs": true,
+    "noImplicitAny": false
+  },
+  "include": [
+    "**/**/*.ts",
+    "**/**/*.vue"
+  ],
+  "exclude": [
+    "node_modules",
+    "**/dist"
+  ]
+}
