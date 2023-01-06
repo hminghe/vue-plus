@@ -30,8 +30,7 @@
     "@vueuse/core": "^9.5.0"
   },
   "devDependencies": {
-    "@popperjs/core": "npm:@sxzz/popperjs-es@^2.11.7",
-    "@vant/cli": "workspace:*"
+    "@popperjs/core": "npm:@sxzz/popperjs-es@^2.11.7"
   },
   "publishConfig": {
     "access": "public"
