@@ -1,0 +1,16 @@
+{
+  "extends": "../../tsconfig",
+  "compilerOptions": {
+    "allowJs": true,
+    "noImplicitAny": false
+  },
+  "include": [
+    "**/**/*.ts",
+    "**/**/*.tsx"
+  ],
+  "exclude": [
+    "node_modules",
+    "**/**/*.md",
+    "**/dist"
+  ]
+}

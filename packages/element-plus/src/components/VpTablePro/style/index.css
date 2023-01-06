@@ -1,0 +1,26 @@
+.vp-table>:not([hidden])~:not([hidden]) {
+  margin-top: 0.5rem;
+}
+
+.vp-table-pro-search-buttons {
+  text-align: right;
+}
+
+.vp-table-pagination {
+  display: flex;
+  margin-top: 0.5rem;
+  justify-content: flex-end;
+}
+
+.vp-table-header {
+  display: flex;
+  align-items: center;
+}
+
+.vp-table-header-buttons {
+  margin: -10px 0;
+}
+
+html.dark .el-card {
+  --el-card-bg-color: var(--el-bg-color);
+}

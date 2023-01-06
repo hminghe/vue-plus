@@ -1,0 +1,26 @@
+.el-link {
+  font-weight: var(--el-link-font-weight) !important;
+  color: var(--el-link-text-color) !important;
+}
+
+.vp-doc table {
+  margin: 0;
+  display: table;
+  --vp-c-bg-soft: jjj;
+}
+.vp-doc .el-table__body, .vp-doc  .el-table__footer, .vp-doc .el-table__header {
+  border-collapse: separate;
+}
+
+.vp-doc .el-table .el-table__cell {
+  padding: 8px 0;
+  border-top: none;
+  border-left: none;
+  /* border-right: none; */
+  font-size: 14px;
+}
+
+.vp-doc .el-pagination ul {
+  margin: 0;
+  padding-left: 0;
+}

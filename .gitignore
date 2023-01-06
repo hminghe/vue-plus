@@ -1,0 +1,6 @@
+.DS_Store
+.idea
+components.d.ts
+node_modules
+auto-imports.d.ts
+dist
