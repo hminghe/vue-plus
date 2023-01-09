@@ -3,4 +3,11 @@
 components.d.ts
 node_modules
 auto-imports.d.ts
+
+
+# dist file
+es
+lib
 dist
+**/site-dist
+changelog.generated.md

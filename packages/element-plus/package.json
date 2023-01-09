@@ -2,32 +2,33 @@
   "name": "@vue-plus/element-plus",
   "version": "0.0.1",
   "description": "element-plus 扩展组件包",
-  "main": "lib/vant.cjs.js",
+  "main": "lib/element-plus.cjs.js",
   "module": "es/index.mjs",
   "style": "lib/index.css",
   "typings": "lib/index.d.ts",
-  "unpkg": "lib/vant.min.js",
-  "jsdelivr": "lib/vant.min.js",
+  "unpkg": "lib/element-plus.min.js",
+  "jsdelivr": "lib/element-plus.min.js",
   "files": [
     "es",
     "lib"
   ],
   "scripts": {
-    "build": "vant-cli build",
-    "release": "vant-cli release"
+    "build": "vue-plus-cli build",
+    "release": "vue-plus-cli release"
   },
   "author": "hminghe",
   "peerDependencies": {
-    "element-plus": "^2.2.17",
-    "vue": "^3.2.0",
     "@vueuse/core": "^9.5.0",
-    "lodash": "^4.17.21"
+    "element-plus": "^2.2.17",
+    "lodash": "^4.17.21",
+    "vue": "^3.2.0"
   },
   "dependencies": {
+    "@types/lodash": "^4.14.191",
+    "@vueuse/core": "^9.5.0",
     "element-plus": "^2.2.17",
-    "vue": "^3.2.0",
     "lodash": "^4.17.21",
-    "@vueuse/core": "^9.5.0"
+    "vue": "^3.2.0"
   },
   "devDependencies": {
     "@popperjs/core": "npm:@sxzz/popperjs-es@^2.11.7"

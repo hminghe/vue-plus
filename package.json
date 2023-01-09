@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "cd packages/element-plus && vite build",
+    "build": "pnpm --dir packages/element-plus build",
     "docs": "pnpm --dir packages/docs dev",
     "docs:build": "vitepress build packages/docs",
     "docs:serve": "vitepress serve packages/docs",
@@ -16,6 +16,10 @@
   "devDependencies": {
     "@antfu/eslint-config": "^0.27.0",
     "eslint": "^8.23.1",
+    "@vue-plus/cli": "workspace:*",
     "typescript": "^4.9.3"
+  },
+  "dependencies": {
+    "element-plus": "^2.2.17"
   }
 }
