@@ -22,8 +22,6 @@ export function MarkdownTransform(): Plugin {
         return null
       }
 
-      console.log('id', id)
-
       if (/index.md$/.test(id)) {
         const dir = join(dirname(id), 'demo')
         if (fs.existsSync(dir)) {
@@ -56,7 +54,7 @@ export function MarkdownTransform(): Plugin {
 
             importComponents.push(`import ${componentName} from './demo/${file}'`)
 
-            // code += `${desc}\n\n<Demo :demo="${componentName}" source="${encodeURIComponent(highlight(source, 'vue'))}" />\n\n`
+            code += `${desc}\n\n<Demo :demo="${componentName}" source="${encodeURIComponent(highlight(source, 'vue'))}" />\n\n`
           }
 
           if (importComponents.length) {
