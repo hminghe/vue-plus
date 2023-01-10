@@ -17,6 +17,9 @@ export type Store<Row> = ReturnType<typeof createStore<Row>>
 
 export type ExposeStore<Row> = Omit<Store<Row>, 'onSearch' | 'onSortChange' | 'renderSlots' | 'tableRef' | 'tableSlot' | 'searchSlots'>
 
+const rxTwoCNChar = /^[\u4E00-\u9FA5]{2}$/
+const isTwoCNChar = rxTwoCNChar.test.bind(rxTwoCNChar)
+
 const injectionKey = Symbol('VpTableProStore')
 
 type RenderSlots = (name: string, otherCtx?: Record<string, any>) => VNode<RendererNode, RendererElement, {
@@ -113,8 +116,8 @@ function useSearch(props: Ref<VpTableProProps>) {
     let max = 0
     searchItems.value.forEach(({ label }) => {
       let length = 0
-      Array.from(label!).forEach((char) => {
-        if (+char > 255) {
+      Array.from(label!).forEach((str) => {
+        if (isTwoCNChar(str)) {
           length++
         } else {
           length += 0.5
