@@ -9,6 +9,12 @@ import { MarkdownTransform } from './.vitepress/plugins/markdownTransform.js'
 export default defineConfig(() => {
   return {
     plugins: [
+      {
+        name: 'docs-debug-score',
+        transform(code) {
+          return code.replace(/'@vue\-plus\/element-plus'/g, '\'@vue-plus/element-plus/src/index.js\'')
+        },
+      },
       MarkdownTransform(),
 
       vueJsx(),
