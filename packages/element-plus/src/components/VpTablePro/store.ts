@@ -17,8 +17,8 @@ export type Store<Row> = ReturnType<typeof createStore<Row>>
 
 export type ExposeStore<Row> = Omit<Store<Row>, 'onSearch' | 'onSortChange' | 'renderSlots' | 'tableRef' | 'tableSlot' | 'searchSlots'>
 
-const rxTwoCNChar = /^[\u4E00-\u9FA5]{2}$/
-const isTwoCNChar = rxTwoCNChar.test.bind(rxTwoCNChar)
+const rxCNChar = /^[\u4E00-\u9FA5]$/
+const isCNChar = rxCNChar.test.bind(rxCNChar)
 
 const injectionKey = Symbol('VpTableProStore')
 
@@ -117,7 +117,7 @@ function useSearch(props: Ref<VpTableProProps>) {
     searchItems.value.forEach(({ label }) => {
       let length = 0
       Array.from(label!).forEach((str) => {
-        if (isTwoCNChar(str)) {
+        if (isCNChar(str)) {
           length++
         } else {
           length += 0.5
