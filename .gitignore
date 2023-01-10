@@ -13,4 +13,4 @@ dist
 changelog.generated.md
 
 # docs
-.vitepress/cache
+**/.vitepress/cache
