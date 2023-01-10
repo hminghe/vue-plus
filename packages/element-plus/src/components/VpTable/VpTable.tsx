@@ -65,6 +65,28 @@ export const VpTableProps = {
   },
 }
 
+// elTable 的事件，手动穿透
+const emits = [
+  'select',
+  'select-all',
+  'selection-change',
+  'cell-mouse-enter',
+  'cell-mouse-leave',
+  'cell-click',
+  'cell-dblclick',
+  'cell-contextmenu',
+  'row-click',
+  'row-contextmenu',
+  'row-dblclick',
+  'header-click',
+  'header-contextmenu',
+  'sort-change',
+  'filter-change',
+  'current-change',
+  'header-dragend',
+  'expand-change',
+]
+
 export const VpTable = defineComponent({
   name: 'VpTable',
 
@@ -72,26 +94,7 @@ export const VpTable = defineComponent({
 
   props: { ...VpTableProps },
 
-  emits: [
-    'select',
-    'select-all',
-    'selection-change',
-    'cell-mouse-enter',
-    'cell-mouse-leave',
-    'cell-click',
-    'cell-dblclick',
-    'cell-contextmenu',
-    'row-click',
-    'row-contextmenu',
-    'row-dblclick',
-    'header-click',
-    'header-contextmenu',
-    'sort-change',
-    'filter-change',
-    'current-change',
-    'header-dragend',
-    'expand-change',
-  ],
+  emits,
 
   setup(props, context) {
     const tableRef = ref<InstanceElType>()
@@ -100,6 +103,12 @@ export const VpTable = defineComponent({
     watch(() => props.items, async () => {
       await nextTick()
       tableRef.value?.doLayout()
+    })
+
+    // 事件穿透
+    const emitAttrs: Record<string, (...args: any[]) => any> = {}
+    emits.forEach((name) => {
+      emitAttrs[`on${name.slice(0, 1).toUpperCase()}${name.slice(1)}`] = (...args) => context.emit(name, ...args)
     })
 
     // expose
@@ -189,6 +198,7 @@ export const VpTable = defineComponent({
       return (
         <ElTable
           {...tableProps}
+          {...emitAttrs}
           ref={tableRef}
         >
           {renderSelection()}

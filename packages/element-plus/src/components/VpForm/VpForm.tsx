@@ -373,6 +373,7 @@ export const VpForm = defineComponent({
       return (
         <ElForm
           {...formProps}
+          onValidate={(...args) => context.emit('validate', ...args)}
           disabled={props.disabled || isSubmitIng.value}
           ref={formRef}
           model={formData.value}
