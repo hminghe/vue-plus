@@ -212,12 +212,19 @@ export const VpForm = defineComponent({
       }
 
       // 响应适
-      if (currentBreakpoint.value && colProps[currentBreakpoint.value]) {
-        const current = colProps[currentBreakpoint.value]
-        if (typeof current === 'number') {
-          colProps.span = current
-        } else {
-          Object.assign(colProps, colProps[currentBreakpoint.value])
+      if (currentBreakpoint.value) {
+        const index = sizeList.indexOf(currentBreakpoint.value)
+        for (let i = index; i <= sizeList.length; i++) {
+          const size = sizeList[i]
+          if (colProps[size]) {
+            const current = colProps[size]
+            if (typeof current === 'number') {
+              colProps.span = current
+            } else {
+              Object.assign(colProps, colProps[size])
+            }
+            break
+          }
         }
       }
 
@@ -380,6 +387,7 @@ export const VpForm = defineComponent({
       formRef,
       formData,
       isSubmitIng,
+      currentBreakpoint,
       submitForm,
       validateForm,
     }
