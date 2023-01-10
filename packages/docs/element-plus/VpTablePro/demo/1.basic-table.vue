@@ -12,7 +12,7 @@ import { defineItems, defineTablePro } from '@vue-plus/element-plus'
 import type { TableItem } from '@vue-plus/element-plus'
 
 const cityDict: TableItem['dict'] = [
-  { label: '上海', value: 1, tag: true },
+  { label: '上海', value: 1, tag: '' },
   { label: '北京', value: 2, tag: 'danger' },
 ]
 

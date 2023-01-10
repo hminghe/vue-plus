@@ -121,7 +121,7 @@ export const VpTable = defineComponent({
       if (column.dict) {
         for (const item of column.dict) {
           if (item.value === value) {
-            if (item.tag && item.tag !== '') {
+            if (item.tag || item.tag === '') {
               return <ElTag {...props.tag} type={item.tag === true ? '' : item.tag} >{item.label}</ElTag>
             }
             return item.label
