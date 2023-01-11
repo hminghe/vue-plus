@@ -17,16 +17,10 @@
     "release": "vue-plus-cli release"
   },
   "author": "hminghe",
-  "peerDependencies": {
-    "@vueuse/core": "^9.5.0",
-    "element-plus": "^2.2.17",
-    "lodash": "^4.17.21",
-    "vue": "^3.2.0"
-  },
   "dependencies": {
     "@types/lodash": "^4.14.191",
     "@vueuse/core": "^9.5.0",
-    "element-plus": "^2.2.17",
+    "element-plus": "^2.2.0",
     "lodash": "^4.17.21",
     "vue": "^3.2.0"
   },
