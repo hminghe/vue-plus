@@ -18,8 +18,5 @@
     "eslint": "^8.23.1",
     "@vue-plus/cli": "workspace:*",
     "typescript": "^4.9.3"
-  },
-  "dependencies": {
-    "element-plus": "^2.2.17"
   }
 }
