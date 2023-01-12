@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "pnpm --dir packages/element-plus build",
+    "release": "pnpm --dir packages/element-plus release",
     "docs": "pnpm --dir packages/docs dev",
     "docs:build": "vitepress build packages/docs",
     "docs:serve": "vitepress serve packages/docs",
