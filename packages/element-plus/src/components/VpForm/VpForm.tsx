@@ -9,6 +9,7 @@ import { useElementSize, useVModel } from '@vueuse/core'
 import { isPromise } from '@vue/shared'
 import { get, omit, set } from 'lodash'
 import { useRender } from '../../shared'
+import { useProps } from '../VpConfigProvider'
 import { breakpoints } from './breakpoints'
 import { input, select } from './components'
 
@@ -78,65 +79,86 @@ const elFormProps = {
 
 const formPropKeys = Object.keys(elFormProps)
 
+const formProps = {
+  ...elFormProps,
+
+  /** @description 表单值, 可以不绑定 */
+  modelValue: Object as PropType<Record<string, any>>,
+
+  /** @description form items */
+  items: {
+    required: true,
+    type: Array as PropType<FormItem[]>,
+  },
+
+  /**
+   * @description ElRow props
+   * @docs https://element-plus.org/zh-CN/component/layout.html#row-%E5%B1%9E%E6%80%A7
+   * */
+  row: Object as PropType<Partial<RowProps>>,
+
+  /**
+   * @description ElCol 公用 props, value = number == { span: value }
+   * @docs https://element-plus.org/zh-CN/component/layout.html#col-%E5%B1%9E%E6%80%A7
+   * */
+  layout: Object as PropType<FormItemLayout>,
+
+  layoutBreakpoints: {
+    type: Object as PropType<Partial<typeof breakpoints>>,
+    default: () => ({ ...breakpoints }),
+  },
+
+  /**
+   * @description ElFormItem 公用 props
+   * @docs https://element-plus.org/zh-CN/component/form.html#form-item-%E5%B1%9E%E6%80%A7
+   * */
+  formItem: {
+    default: () => ({} as Partial<FormItemProps>),
+  },
+
+  submit: {
+    type: Function as PropType<(formData: Record<string, any>) => void | Promise<unknown>>,
+  },
+
+  submitButtonText: {
+    type: String,
+    default: '提交',
+  },
+
+  buttonLayout: Object as PropType<FormItemLayout>,
+
+  buttonAlign: String as PropType<'left' | 'center' | 'right'>,
+
+  getDefaultInputComponent: {
+    default: () => (item: FormItem): Component => item.dict ? select : input,
+  },
+}
+
+export const defaultProps: Record<string, any> = {}
+
+Object.keys(formProps).forEach((key) => {
+  const item = formProps[key]
+
+  // 获取 props default 的value
+  if (item.default) {
+    defaultProps[key] = item.default
+  }
+
+  // Boolean 类型的会默认自动设置为 false，所以加个 default = undefined
+  if (item === Boolean || item.type === Boolean) {
+    formProps[key] = {
+      type: Boolean,
+      default: () => undefined,
+    }
+  }
+})
+
 export const VpForm = defineComponent({
   name: 'VpForm',
 
   // inheritAttrs: false,
 
-  props: {
-    ...elFormProps,
-
-    /** @description 表单值, 可以不绑定 */
-    modelValue: Object as PropType<Record<string, any>>,
-
-    /** @description form items */
-    items: {
-      required: true,
-      type: Array as PropType<FormItem[]>,
-    },
-
-    /**
-     * @description ElRow props
-     * @docs https://element-plus.org/zh-CN/component/layout.html#row-%E5%B1%9E%E6%80%A7
-     * */
-    row: Object as PropType<Partial<RowProps>>,
-
-    /**
-     * @description ElCol 公用 props, value = number == { span: value }
-     * @docs https://element-plus.org/zh-CN/component/layout.html#col-%E5%B1%9E%E6%80%A7
-     * */
-    layout: Object as PropType<FormItemLayout>,
-
-    layoutBreakpoints: {
-      type: Object as PropType<Partial<typeof breakpoints>>,
-      default: () => ({ ...breakpoints }),
-    },
-
-    /**
-     * @description ElFormItem 公用 props
-     * @docs https://element-plus.org/zh-CN/component/form.html#form-item-%E5%B1%9E%E6%80%A7
-     * */
-    formItem: {
-      default: () => ({} as Partial<FormItemProps>),
-    },
-
-    submit: {
-      type: Function as PropType<(formData: Record<string, any>) => void | Promise<unknown>>,
-    },
-
-    submitButtonText: {
-      type: String,
-      default: '提交',
-    },
-
-    buttonLayout: Object as PropType<FormItemLayout>,
-
-    buttonAlign: String as PropType<'left' | 'center' | 'right'>,
-
-    getDefaultInputComponent: {
-      default: () => (item: FormItem): Component => item.dict ? select : input,
-    },
-  },
+  props: formProps,
 
   emits: [
     'validate',
@@ -144,8 +166,10 @@ export const VpForm = defineComponent({
     'update:modelValue',
   ],
 
-  setup(props, context) {
-    const formData = ((props.modelValue ? useVModel(props, 'modelValue') : ref({})) as Ref<Record<string, any>>)
+  setup(_props, context) {
+    const formData = ((_props.modelValue ? useVModel(_props, 'modelValue') : ref({})) as Ref<Record<string, any>>)
+
+    const computedProps = useProps(_props, 'form', defaultProps)
 
     const formRef = ref<InstanceType<typeof ElForm>>()
 
@@ -157,7 +181,7 @@ export const VpForm = defineComponent({
       isSubmitIng.value = true
 
       if (await validateForm()) {
-        const submitResult = props.submit?.(formData.value)
+        const submitResult = computedProps.value.submit?.(formData.value)
         if (isPromise(submitResult)) {
           try {
             await submitResult
@@ -191,7 +215,7 @@ export const VpForm = defineComponent({
     const sizeList = ['xl', 'lg', 'md', 'sm'] as const
     const currentBreakpoint = computed(() => {
       for (const size of sizeList) {
-        const minSize = props.layoutBreakpoints[size]
+        const minSize = computedProps.value.layoutBreakpoints[size]
         if (minSize && minSize <= formWidth.value) {
           return size
         }
@@ -201,7 +225,7 @@ export const VpForm = defineComponent({
 
     function getColProps(layout?: FormItemLayout) {
       // const colCommonProps = typeof props.layout === 'number' ? { span: props.layout } : props.layout
-      layout = layout ?? props.layout
+      layout = layout ?? computedProps.value.layout
 
       const colProps: FormItemLayout = {}
 
@@ -256,7 +280,7 @@ export const VpForm = defineComponent({
     function renderFormItem(item: FormItem) {
       return (
         <ElFormItem
-          {...props.formItem}
+          {...computedProps.value.formItem}
           {...item.props}
           prop={item.key}
           key={item.key}
@@ -291,25 +315,25 @@ export const VpForm = defineComponent({
 
       let inputComponent = item.component
       if (!inputComponent) {
-        inputComponent = props.getDefaultInputComponent(item)
+        inputComponent = computedProps.value.getDefaultInputComponent(item)
       }
 
       return <inputComponent {...attrs} />
     }
 
     function renderContent() {
-      const { inline, items } = props
+      const { inline, items } = computedProps.value
       if (inline) {
         return (
           <>
-            {items.map(item => renderFormItem(item))}
+            {items?.map(item => renderFormItem(item))}
             {renderButtons()}
           </>
         )
       } else {
         return (
-          <ElRow {...props.row}>
-            {items.map((item) => {
+          <ElRow {...computedProps.value.row}>
+            {items?.map((item) => {
               return (
                 <ElCol {...getColProps(item.layout)}>
                   {renderFormItem(item)}
@@ -328,7 +352,7 @@ export const VpForm = defineComponent({
           type="primary"
           nativeType="submit"
           loading={isSubmitIng.value}
-        >{ props.submitButtonText }</ElButton>
+        >{ computedProps.value.submitButtonText }</ElButton>
       )
     }
 
@@ -342,20 +366,20 @@ export const VpForm = defineComponent({
       const buttons = slots.button
         ? renderSlots('button')
         : <>
-            {props.submit && renderSubmitButton()}
+            {computedProps.value.submit && renderSubmitButton()}
             {renderSlots('button-append')}
           </>
 
-      if (props.inline) {
+      if (computedProps.value.inline) {
         return <ElFormItem>{buttons}</ElFormItem>
       }
 
       return (
         <ElCol
-          { ...getColProps(props.buttonLayout) }
+          { ...getColProps(computedProps.value.buttonLayout) }
           style={{
-            textAlign: props.buttonAlign,
-            marginLeft: props.buttonAlign ? null : props.labelWidth,
+            textAlign: computedProps.value.buttonAlign,
+            marginLeft: computedProps.value.buttonAlign ? null : computedProps.value.labelWidth,
           }}
         >{ buttons }</ElCol>
       )
@@ -367,14 +391,14 @@ export const VpForm = defineComponent({
         validateOnRuleChange: false,
       }
       formPropKeys.forEach((key) => {
-        formProps[key] = props[key]
+        formProps[key] = computedProps.value[key]
       })
 
       return (
         <ElForm
           {...formProps}
           onValidate={(...args) => context.emit('validate', ...args)}
-          disabled={props.disabled || isSubmitIng.value}
+          disabled={computedProps.value.disabled || isSubmitIng.value}
           ref={formRef}
           model={formData.value}
           onSubmit={event => submitForm(event)}

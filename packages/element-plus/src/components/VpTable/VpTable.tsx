@@ -8,12 +8,9 @@ import tableProps from 'element-plus/es/components/table/src/table/defaults'
 import type elTableColumnProps from 'element-plus/es/components/table/src/table-column/defaults'
 import type { TableColumnCtx } from 'element-plus/es/components/table/src/table-column/defaults'
 import { useRender } from '../../shared'
+import { useProps } from '../VpConfigProvider'
 
 type ElTableColumnProps = ExtractPropTypes<typeof elTableColumnProps>
-
-type InstanceElType = InstanceType<typeof ElTable>
-
-type a = Partial<TagProps>
 
 export const tableSlotsPrefix = {
   column: 'item:',
@@ -45,7 +42,7 @@ export interface TableItem {
 
 const tablePropKeys = Object.keys(tableProps)
 
-export const VpTableProps = {
+export const vpTableProps = {
   ...tableProps,
 
   selection: [Boolean, String] as PropType<Boolean | 'reserve'>,
@@ -57,13 +54,34 @@ export const VpTableProps = {
   },
 
   tag: {
-    type: Object as PropType<a>,
+    type: Object as PropType<Partial<TagProps>>,
   },
 
   defaultFormatter: {
     type: Function as PropType<TableItem['formatter']>,
   },
 }
+
+export type VpTableProps = ExtractPropTypes<typeof vpTableProps>
+
+const defaultProps: Record<string, any> = {}
+
+Object.keys(vpTableProps).forEach((key) => {
+  const item = vpTableProps[key]
+
+  // 获取 props default 的value
+  if (item.default) {
+    defaultProps[key] = item.default
+  }
+
+  // Boolean 类型的会默认自动设置为 false，所以加个 default = undefined
+  if (item === Boolean || item.type === Boolean) {
+    tableProps[key] = {
+      type: Boolean,
+      default: () => undefined,
+    }
+  }
+})
 
 // elTable 的事件，手动穿透
 const emits = [
@@ -92,15 +110,17 @@ export const VpTable = defineComponent({
 
   // inheritAttrs: false,
 
-  props: { ...VpTableProps },
+  props: vpTableProps,
 
   emits,
 
-  setup(props, context) {
-    const tableRef = ref<InstanceElType>()
+  setup(_props, context) {
+    const tableRef = ref<InstanceType<typeof ElTable>>()
+
+    const computedProps = useProps(_props, 'table', defaultProps)
 
     // 当表格列有变化，调用 doLayout 重新布局一下
-    watch(() => props.items, async () => {
+    watch(() => computedProps.value.items, async () => {
       await nextTick()
       tableRef.value?.doLayout()
     })
@@ -122,7 +142,7 @@ export const VpTable = defineComponent({
         for (const item of column.dict) {
           if (item.value === value) {
             if (item.tag || item.tag === '') {
-              return <ElTag {...props.tag} type={item.tag === true ? '' : item.tag} >{item.label}</ElTag>
+              return <ElTag {...computedProps.value.tag} type={item.tag === true ? '' : item.tag} >{item.label}</ElTag>
             }
             return item.label
           }
@@ -169,7 +189,7 @@ export const VpTable = defineComponent({
             prop={item.key}
             label={item.label}
             formatter={(row, column, cellValue, index) => {
-              const formatter = (item.formatter ?? props.defaultFormatter ?? columnDefaultFormatter)!
+              const formatter = (item.formatter ?? computedProps.value.defaultFormatter ?? columnDefaultFormatter)!
               return formatter({ row, column, cellValue, index }, item)
             }}
             v-slots={slots}
@@ -180,7 +200,7 @@ export const VpTable = defineComponent({
     }
 
     function renderSelection() {
-      const { selection } = props
+      const { selection } = computedProps.value
 
       if (!selection) {
         return null
@@ -192,7 +212,7 @@ export const VpTable = defineComponent({
     useRender(() => {
       const tableProps = {}
       tablePropKeys.forEach((key) => {
-        tableProps[key] = props[key]
+        tableProps[key] = computedProps.value[key]
       })
 
       return (
@@ -202,7 +222,7 @@ export const VpTable = defineComponent({
           ref={tableRef}
         >
           {renderSelection()}
-          {props.items && renderTableColumns(props.items)}
+          {computedProps.value.items && renderTableColumns(computedProps.value.items)}
         </ElTable>
       )
     })

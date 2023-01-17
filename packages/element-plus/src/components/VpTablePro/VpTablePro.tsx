@@ -7,12 +7,12 @@ import { useRender } from '../../shared'
 import type { FormItem, FormItemLayout } from '../VpForm'
 
 import type { TableItem } from '../VpTable'
-import { VpTable, VpTableProps } from '../VpTable'
+import { VpTable, vpTableProps } from '../VpTable'
 
 import { createStore } from './store'
 import { VpTableProSearch } from './VpTableProSearch'
 
-const tableProps = omit(VpTableProps, ['items'])
+const tableProps = omit(vpTableProps, ['items'])
 
 const tablePropKeys = Object.keys(tableProps)
 
@@ -41,7 +41,10 @@ const tableProProps = {
 
   defaultSearchQuery: Object,
 
-  searchLayout: Object as PropType<FormItemLayout>,
+  searchLayout: {
+    type: Object as PropType<FormItemLayout>,
+    default: { lg: 6, md: 8, sm: 12 },
+  },
 
   apiQueryProps: {
     type: Object as PropType<{
@@ -52,14 +55,31 @@ const tableProProps = {
       ascending: string
       descending: string
     }>,
+    default: () => ({
+      pageSize: 'pageSize',
+      currentPage: 'currentPage',
+      sortField: 'sortField',
+      sortOrder: 'sortOrder',
+      ascending: 'ascending',
+      descending: 'descending',
+    }),
   },
 
   ...tableProps,
 }
 
-// Boolean 类型的会默认自动设置为 false，所以加个 default = undefined
+export const defaultProps: Record<string, any> = {}
+
 Object.keys(tableProProps).forEach((key) => {
-  if (tableProProps[key] === Boolean || tableProProps[key].type === Boolean) {
+  const item = tableProProps[key]
+
+  // 获取 props default 的value
+  if (item.default) {
+    defaultProps[key] = item.default
+  }
+
+  // Boolean 类型的会默认自动设置为 false，所以加个 default = undefined
+  if (item === Boolean || item.type === Boolean) {
     tableProProps[key] = {
       type: Boolean,
       default: () => undefined,

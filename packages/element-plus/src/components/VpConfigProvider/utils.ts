@@ -6,6 +6,18 @@ import type { ConfigProviderProps } from './VpConfigProvider'
 
 const provideKey: InjectionKey<Ref<ConfigProviderProps>> = Symbol('VpConfigProvider')
 
+function removeUndefined<T extends object>(obj: T): Partial<T> {
+  const newObj = {}
+  if (obj) {
+    Object.keys(obj).forEach((key) => {
+      if (obj[key] !== undefined) {
+        newObj[key] = obj[key]
+      }
+    })
+  }
+  return newObj
+}
+
 export function useGlobalConfig() {
   return inject(provideKey, ref({}))
 }
@@ -28,24 +40,18 @@ export function provideGlobalConfig(config: MaybeRef<ConfigProviderProps>) {
   }))
 }
 
-export function useProps<T extends object>(
+export function useProps<T extends Record<string, any>>(
   props: T,
   name: string,
   defaultProps: Partial<T> = {},
 ) {
   const globalConfig = useGlobalConfig()
 
-  function removeUndefined<T extends object>(obj: T): Partial<T> {
-    const newObj = {}
-    if (obj) {
-      Object.keys(obj).forEach((key) => {
-        if (obj[key] !== undefined) {
-          newObj[key] = obj[key]
-        }
-      })
-    }
-    return newObj
-  }
+  const _defaultProps: Record<string, any> = {}
+  Object.keys(defaultProps).forEach((key) => {
+    const value = defaultProps[key]
+    _defaultProps[key] = typeof value === 'function' ? value() : value
+  })
 
   return computed<T>(() => {
     const currentContext = unref(globalConfig)[name]
@@ -55,19 +61,4 @@ export function useProps<T extends object>(
       ...removeUndefined(props),
     }
   })
-
-  // return new Proxy<T>(props, {
-  //   get(props, key) {
-  //     if (props[key] !== undefined) {
-  //       return props[key]
-  //     }
-
-  //     const currentContext = unref(context)[name]
-  //     if (currentContext && currentContext[key]) {
-  //       return currentContext[key]
-  //     }
-
-  //     return defaultProps[key]
-  //   },
-  // })
 }
