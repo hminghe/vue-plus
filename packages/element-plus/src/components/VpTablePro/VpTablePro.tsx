@@ -43,7 +43,7 @@ const tableProProps = {
 
   searchLayout: {
     type: Object as PropType<FormItemLayout>,
-    default: { lg: 6, md: 8, sm: 12 },
+    default: { xl: 6, md: 8, sm: 12 },
   },
 
   apiQueryProps: {
