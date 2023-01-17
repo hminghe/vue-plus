@@ -1,3 +1,4 @@
+import { resolve } from 'node:path'
 import { defineConfig } from 'vite'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import AutoImport from 'unplugin-auto-import/vite'
@@ -8,6 +9,12 @@ import { MarkdownTransform } from './.vitepress/plugins/markdownTransform.js'
 
 export default defineConfig(() => {
   return {
+    resolve: {
+      alias: {
+        '@': resolve(__dirname, './'),
+      },
+    },
+
     plugins: [
       {
         name: 'docs-debug-score',

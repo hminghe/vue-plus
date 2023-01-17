@@ -9,21 +9,14 @@ import type { TableItem } from '@vue-plus/element-plus'
 import { VpConfigProvider, defineItems, defineTablePro } from '@vue-plus/element-plus'
 
 import '@vue-plus/element-plus/es/components/VpTablePro/style'
+import { mockGetList, waitTime } from '@/utils/index'
 
 const cityDict: TableItem['dict'] = [
   { label: '上海', value: 1, tag: true },
   { label: '北京', value: 2, tag: 'danger' },
 ]
 
-interface Row {
-  id: number
-  date: string
-  name: string
-  address: string
-  city: number
-}
-
-const { VpTablePro, table } = defineTablePro<Row>(({ sort, searchDate, search, searchMultiple, dict }) => {
+const { VpTablePro, table } = defineTablePro(({ sort, searchDate, search, searchMultiple, dict }) => {
   defineItems([
     ['date', 'Date', sort(), searchDate()],
     ['name', 'Name', search()],
@@ -33,38 +26,10 @@ const { VpTablePro, table } = defineTablePro<Row>(({ sort, searchDate, search, s
   ])
 })
 
-function wait(time = 1000) {
-  return new Promise((resolve) => {
-    setTimeout(() => [
-      resolve(undefined),
-    ], time)
-  })
-}
-
-async function getList(query) {
-  const list: Row[] = []
-  for (let i = (query.currentPage - 1) * query.pageSize; i < (query.currentPage - 1) * query.pageSize + query.pageSize; i++) {
-    list.push({
-      id: i,
-      date: '2019-01-10',
-      name: `${query.currentPage}-name${i}`,
-      address: `address${i}`,
-      city: i % 2 + 1,
-    })
-  }
-
-  await wait(500)
-
-  return {
-    total: 999,
-    list,
-  }
-}
-
 const batchDeleteLoading = ref(false)
 async function batchDelete(rows) {
   batchDeleteLoading.value = true
-  await wait(500)
+  await waitTime(500)
   batchDeleteLoading.value = false
   ElMessage.success('删除成功')
 
@@ -75,19 +40,21 @@ async function batchDelete(rows) {
   table.value?.refresh()
 }
 
-function onClickEdit(row: Row) {
+function onClickEdit(row) {
   ElMessage.success(`点击了修改 ${row.id}`)
 }
 
-function onClickRemove(row: Row) {
+function onClickRemove(row) {
   ElMessage.success(`点击了删除 ${row.id}`)
 }
 </script>
 
 <template>
   <VpConfigProvider
+    :table="{
+      border: true,
+    }"
     :table-pro="{
-      border: false,
       tag: { effect: 'light', hit: false, round: true, size: 'small' },
     }"
   >
@@ -95,7 +62,7 @@ function onClickRemove(row: Row) {
       title="基础表格"
       selection="reserve"
       row-key="id"
-      :api="getList"
+      :api="mockGetList"
       :default-sort="{ prop: 'date', order: 'descending' }"
       :default-search-query="{ name: '444', city: [1] }"
     >

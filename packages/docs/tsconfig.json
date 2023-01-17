@@ -2,7 +2,10 @@
   "extends": "../../tsconfig",
   "compilerOptions": {
     "allowJs": true,
-    "noImplicitAny": false
+    "noImplicitAny": false,
+    "paths": {
+      "@/*": ["packages/docs/*"]
+    }
   },
   "include": [
     "**/**/*.ts",
