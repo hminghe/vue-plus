@@ -1,6 +1,6 @@
 {
   "name": "@vue-plus/multi-window",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "scripts": {
     "dev": "vite",
     "build": "vue-plus-cli build",
