@@ -127,6 +127,11 @@ export function replaceScriptImportExt(
         return;
       }
 
+      const isExistExt = line.includes(ext);
+      if (isExistExt) {
+        return;
+      }
+
       const pathInfo = getPathByImport(line, filePath);
 
       if (pathInfo) {

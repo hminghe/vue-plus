@@ -1,0 +1,36 @@
+{
+  "name": "@vue-plus/multi-window",
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-plus-cli build",
+    "release": "vue-plus-cli release",
+    "preview": "vite preview"
+  },
+  "main": "lib/multi-window.cjs.js",
+  "module": "es/index.mjs",
+  "style": "lib/index.css",
+  "typings": "lib/index.d.ts",
+  "unpkg": "lib/multi-window.min.js",
+  "jsdelivr": "lib/multi-window.min.js",
+  "files": [
+    "es",
+    "lib"
+  ],
+  "dependencies": {
+    "@vueuse/core": "^9.13.0",
+    "pinia": "^2.0.13",
+    "vue": "^3.2.25",
+    "vue-router": "^4.0.14"
+  },
+  "devDependencies": {
+    "@types/node": "^18.14.6",
+    "@vitejs/plugin-vue": "^2.3.3",
+    "typescript": "^4.5.4",
+    "vite": "^2.9.9",
+    "vue-tsc": "^0.34.7"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
