@@ -172,13 +172,22 @@ export const useMultiWindowStore = defineStore('multiWindow', () => {
 
     switch (command) {
       case 'other':
-        windows.splice(0, windows.length, window)
+        for (let i = 0; i < windows.length; i++) {
+          if (i === index) {
+            continue
+          }
+          closeWindow(windows[i].key)
+        }
         break
       case 'left':
-        windows.splice(0, index)
+        for (let i = 0; i < index; i++) {
+          closeWindow(windows[i].key)
+        }
         break
       case 'right':
-        windows.splice(index + 1, windows.length - index - 1)
+        for (let i = index + 1; i < windows.length - index - 1; i++) {
+          closeWindow(windows[i].key)
+        }
         break
     }
   }
