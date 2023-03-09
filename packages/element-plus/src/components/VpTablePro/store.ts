@@ -9,7 +9,7 @@ import type { FormItem } from '../VpForm'
 import { tableSlotsPrefix } from '../VpTable'
 
 import type { TableProApi, VpTableProProps } from './VpTablePro'
-import { defaultProps } from './VpTablePro'
+import { vpTableProDefaultProps } from './VpTablePro'
 
 export type SortOrder = 'ascending' | 'descending' | ''
 export type SearchQuery = Record<string, any>
@@ -175,7 +175,7 @@ function useSort(props: Ref<VpTableProProps>) {
 export function createStore<T>(props: Readonly<VpTableProProps>, context: SetupContext) {
   const emit = context.emit
 
-  const computedProps = useProps(props, 'tablePro', defaultProps)
+  const computedProps = useProps(props, 'tablePro', vpTableProDefaultProps)
 
   const {
     tableRef,

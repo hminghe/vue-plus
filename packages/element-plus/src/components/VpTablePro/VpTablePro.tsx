@@ -68,14 +68,14 @@ const tableProProps = {
   ...tableProps,
 }
 
-export const defaultProps: Record<string, any> = {}
+export const vpTableProDefaultProps: Record<string, any> = {}
 
 Object.keys(tableProProps).forEach((key) => {
   const item = tableProProps[key]
 
   // 获取 props default 的value
   if (item.default) {
-    defaultProps[key] = item.default
+    vpTableProDefaultProps[key] = item.default
   }
 
   // Boolean 类型的会默认自动设置为 false，所以加个 default = undefined

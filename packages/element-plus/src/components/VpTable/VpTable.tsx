@@ -66,14 +66,14 @@ export const vpTableProps = {
 
 export type VpTableProps = ExtractPropTypes<typeof vpTableProps>
 
-const defaultProps: Record<string, any> = {}
+const vpTableDefaultProps: Record<string, any> = {}
 
 Object.keys(vpTableProps).forEach((key) => {
   const item = vpTableProps[key]
 
   // 获取 props default 的value
   if (item.default) {
-    defaultProps[key] = item.default
+    vpTableDefaultProps[key] = item.default
   }
 
   // Boolean 类型的会默认自动设置为 false，所以加个 default = undefined
@@ -119,7 +119,7 @@ export const VpTable = defineComponent({
   setup(_props, context) {
     const tableRef = ref<InstanceType<typeof ElTable>>()
 
-    const computedProps = useProps(_props, 'table', defaultProps)
+    const computedProps = useProps(_props, 'table', vpTableDefaultProps)
 
     // 当表格列有变化，调用 doLayout 重新布局一下
     watch(() => computedProps.value.items, async () => {
