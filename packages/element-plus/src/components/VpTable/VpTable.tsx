@@ -17,6 +17,13 @@ export const tableSlotsPrefix = {
   header: 'item:header:',
 }
 
+export interface TableItemFormatterCtx {
+  row: any
+  column: TableColumnCtx<any>
+  cellValue
+  index: number
+}
+
 export interface TableItem {
   key: string
   label?: string
@@ -30,13 +37,9 @@ export interface TableItem {
     tag?: '' | 'success' | 'warning' | 'info' | 'danger' | true
   }[]
   formatter?: (
-    elCtx: {
-      row: any
-      column: TableColumnCtx<any>
-      cellValue
-      index: number
-    },
-    tableColumn: TableItem
+    elCtx: TableItemFormatterCtx,
+    tableColumn: TableItem,
+    defaultFormatter: (elCtx: TableItemFormatterCtx, tableColumn: TableItem) => VNode | string
   ) => VNode | string
 }
 
@@ -190,7 +193,7 @@ export const VpTable = defineComponent({
             label={item.label}
             formatter={(row, column, cellValue, index) => {
               const formatter = (item.formatter ?? computedProps.value.defaultFormatter ?? columnDefaultFormatter)!
-              return formatter({ row, column, cellValue, index }, item)
+              return formatter({ row, column, cellValue, index }, item, columnDefaultFormatter)
             }}
             v-slots={slots}
           >
