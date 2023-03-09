@@ -39,7 +39,6 @@ export interface TableItem {
   formatter?: (
     elCtx: TableItemFormatterCtx,
     tableColumn: TableItem,
-    defaultFormatter: (elCtx: TableItemFormatterCtx, tableColumn: TableItem) => VNode | string
   ) => VNode | string
 }
 
@@ -192,8 +191,9 @@ export const VpTable = defineComponent({
             prop={item.key}
             label={item.label}
             formatter={(row, column, cellValue, index) => {
-              const formatter = (item.formatter ?? computedProps.value.defaultFormatter ?? columnDefaultFormatter)!
-              return formatter({ row, column, cellValue, index }, item, columnDefaultFormatter)
+              const ctx = { row, column, cellValue, index }
+              const formatter = (item.formatter ?? computedProps.value.defaultFormatter ?? columnDefaultFormatter)
+              return formatter(ctx, item) ?? columnDefaultFormatter(ctx, item)
             }}
             v-slots={slots}
           >
