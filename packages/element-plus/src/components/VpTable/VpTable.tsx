@@ -7,8 +7,9 @@ import { ElTable, ElTableColumn, ElTag } from 'element-plus'
 import tableProps from 'element-plus/es/components/table/src/table/defaults'
 import type elTableColumnProps from 'element-plus/es/components/table/src/table-column/defaults'
 import type { TableColumnCtx } from 'element-plus/es/components/table/src/table-column/defaults'
+import { cloneDeep } from 'lodash'
 import { useRender } from '../../shared'
-import { useProps } from '../VpConfigProvider'
+import { initProps, useProps } from '../VpConfigProvider'
 
 type ElTableColumnProps = ExtractPropTypes<typeof elTableColumnProps>
 
@@ -45,7 +46,7 @@ export interface TableItem {
 const tablePropKeys = Object.keys(tableProps)
 
 export const vpTableProps = {
-  ...tableProps,
+  ...cloneDeep(tableProps),
 
   selection: [Boolean, String] as PropType<Boolean | 'reserve'>,
 
@@ -63,27 +64,9 @@ export const vpTableProps = {
     type: Function as PropType<TableItem['formatter']>,
   },
 }
+initProps('table', vpTableProps)
 
 export type VpTableProps = ExtractPropTypes<typeof vpTableProps>
-
-const vpTableDefaultProps: Record<string, any> = {}
-
-Object.keys(vpTableProps).forEach((key) => {
-  const item = vpTableProps[key]
-
-  // 获取 props default 的value
-  if (item.default) {
-    vpTableDefaultProps[key] = item.default
-  }
-
-  // Boolean 类型的会默认自动设置为 false，所以加个 default = undefined
-  if (item === Boolean || item.type === Boolean) {
-    tableProps[key] = {
-      type: Boolean,
-      default: () => undefined,
-    }
-  }
-})
 
 // elTable 的事件，手动穿透
 const emits = [
@@ -119,7 +102,7 @@ export const VpTable = defineComponent({
   setup(_props, context) {
     const tableRef = ref<InstanceType<typeof ElTable>>()
 
-    const computedProps = useProps(_props, 'table', vpTableDefaultProps)
+    const computedProps = useProps('table', _props)
 
     // 当表格列有变化，调用 doLayout 重新布局一下
     watch(() => computedProps.value.items, async () => {

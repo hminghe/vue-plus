@@ -56,6 +56,14 @@ function onClickRemove(row) {
     }"
     :table-pro="{
       tag: { effect: 'light', hit: false, round: true, size: 'small' },
+      apiQueryProps: {
+        pageSize: 'pageSize',
+        currentPage: 'currentPage',
+        sortField: 'sortField',
+        sortOrder: 'sortOrder',
+        ascending: 'asc',
+        descending: 'desc',
+      },
     }"
   >
     <VpTablePro

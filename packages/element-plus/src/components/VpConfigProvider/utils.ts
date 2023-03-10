@@ -40,12 +40,15 @@ export function provideGlobalConfig(config: MaybeRef<ConfigProviderProps>) {
   }))
 }
 
+const defaultPropsMap: Record<string, Record<string, any>> = {}
+
 export function useProps<T extends Record<string, any>>(
-  props: T,
   name: string,
-  defaultProps: Partial<T> = {},
+  props: T,
 ) {
   const globalConfig = useGlobalConfig()
+
+  const defaultProps = defaultPropsMap[name] || {}
 
   const _defaultProps: Record<string, any> = {}
   Object.keys(defaultProps).forEach((key) => {
@@ -56,9 +59,30 @@ export function useProps<T extends Record<string, any>>(
   return computed<T>(() => {
     const currentContext = unref(globalConfig)[name]
     return {
-      ...defaultProps,
+      ..._defaultProps,
       ...removeUndefined(currentContext),
       ...removeUndefined(props),
+    }
+  })
+}
+
+export function initProps(name, props) {
+  defaultPropsMap[name] = {}
+
+  Object.keys(props).forEach((key) => {
+    const item = props[key]
+    // 获取 props default 的value
+    if (item?.default) {
+      defaultPropsMap[name][key] = item.default
+      delete item.default
+    }
+
+    // Boolean 类型的会默认自动设置为 false，所以加个 default = undefined
+    if (item === Boolean || item.type === Boolean) {
+      props[key] = {
+        type: Boolean,
+        default: () => undefined,
+      }
     }
   })
 }

@@ -9,7 +9,7 @@ import { useElementSize, useVModel } from '@vueuse/core'
 import { isPromise } from '@vue/shared'
 import { get, omit, set } from 'lodash'
 import { useRender } from '../../shared'
-import { useProps } from '../VpConfigProvider'
+import { initProps, useProps } from '../VpConfigProvider'
 import { breakpoints } from './breakpoints'
 import { input, select } from './components'
 
@@ -133,25 +133,7 @@ const formProps = {
     default: () => (item: FormItem): Component => item.dict ? select : input,
   },
 }
-
-export const defaultProps: Record<string, any> = {}
-
-Object.keys(formProps).forEach((key) => {
-  const item = formProps[key]
-
-  // 获取 props default 的value
-  if (item.default) {
-    defaultProps[key] = item.default
-  }
-
-  // Boolean 类型的会默认自动设置为 false，所以加个 default = undefined
-  if (item === Boolean || item.type === Boolean) {
-    formProps[key] = {
-      type: Boolean,
-      default: () => undefined,
-    }
-  }
-})
+initProps('form', formProps)
 
 export const VpForm = defineComponent({
   name: 'VpForm',
@@ -169,7 +151,7 @@ export const VpForm = defineComponent({
   setup(_props, context) {
     const formData = ((_props.modelValue ? useVModel(_props, 'modelValue') : ref({})) as Ref<Record<string, any>>)
 
-    const computedProps = useProps(_props, 'form', defaultProps)
+    const computedProps = useProps('form', _props)
 
     const formRef = ref<InstanceType<typeof ElForm>>()
 

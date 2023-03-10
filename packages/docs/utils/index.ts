@@ -20,6 +20,7 @@ export async function mockGetList(query): Promise<{
   total: number
   list: ListRow[]
 }> {
+  console.log('total', query)
   const list: ListRow[] = []
   for (let i = (query.currentPage - 1) * query.pageSize; i < (query.currentPage - 1) * query.pageSize + query.pageSize; i++) {
     list.push({

@@ -1,5 +1,5 @@
 import { ElCard, ElPagination, vLoading } from 'element-plus'
-import { omit } from 'lodash'
+import { cloneDeep, omit } from 'lodash'
 import { defineComponent } from 'vue'
 import type { ExtractPropTypes, PropType } from 'vue'
 import { useRender } from '../../shared'
@@ -9,6 +9,7 @@ import type { FormItem, FormItemLayout } from '../VpForm'
 import type { TableItem } from '../VpTable'
 import { VpTable, vpTableProps } from '../VpTable'
 
+import { initProps } from '../VpConfigProvider'
 import { createStore } from './store'
 import { VpTableProSearch } from './VpTableProSearch'
 
@@ -65,27 +66,10 @@ const tableProProps = {
     }),
   },
 
-  ...tableProps,
+  ...cloneDeep(tableProps),
 }
 
-export const vpTableProDefaultProps: Record<string, any> = {}
-
-Object.keys(tableProProps).forEach((key) => {
-  const item = tableProProps[key]
-
-  // 获取 props default 的value
-  if (item.default) {
-    vpTableProDefaultProps[key] = item.default
-  }
-
-  // Boolean 类型的会默认自动设置为 false，所以加个 default = undefined
-  if (item === Boolean || item.type === Boolean) {
-    tableProProps[key] = {
-      type: Boolean,
-      default: () => undefined,
-    }
-  }
-})
+initProps('tablePro', tableProProps)
 
 export function createTablePro<Row>() {
   return defineComponent({
