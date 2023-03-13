@@ -215,7 +215,11 @@ export function createStore<T>(props: Readonly<VpTableProProps>, context: SetupC
     tableRef.value.clearSelection()
   }
 
-  const { state, execute, isLoading } = useAsyncState(() => {
+  const total = ref(0)
+  const list = ref<T[]>([])
+  const isLoading = ref(false)
+
+  const fetchData = useDebounceFn(async () => {
     // 深度复制一下，避免调用者直接修改原数据
     const query = cloneDeep(searchQuery.value)
 
@@ -233,15 +237,18 @@ export function createStore<T>(props: Readonly<VpTableProProps>, context: SetupC
       }
     }
 
-    // TODO 考虑一下要不要处理 undefined 参数
+    isLoading.value = true
+    try {
+      // TODO 考虑一下要不要处理 undefined 参数
+      const result = await computedProps.value.api!(query)
+      total.value = result.total
+      list.value = result.list
+    } finally {
+      isLoading.value = false
+    }
+  }, 1)
 
-    return computedProps.value.api!(query) as ReturnType<TableProApi<T>>
-  }, { total: 0, list: [] }, { resetOnExecute: false, delay: 50 })
-
-  const total = computed(() => state.value.total)
-  const list = computed(() => state.value.list)
-
-  const fetchData = useDebounceFn(execute, 1)
+  setTimeout(() => fetchData(), 50)
 
   // utils
   /**
