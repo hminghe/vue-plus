@@ -1,4 +1,4 @@
-import { useAsyncState, useDebounceFn } from '@vueuse/core'
+import { useDebounceFn } from '@vueuse/core'
 import type { ElTable } from 'element-plus'
 import { cloneDeep } from 'lodash'
 import type { Ref, RendererElement, RendererNode, SetupContext, VNode } from 'vue'
@@ -8,7 +8,7 @@ import { useProps } from '../VpConfigProvider'
 import type { FormItem } from '../VpForm'
 import { tableSlotsPrefix } from '../VpTable'
 
-import type { TableProApi, VpTableProProps } from './VpTablePro'
+import type { VpTableProProps } from './VpTablePro'
 
 export type SortOrder = 'ascending' | 'descending' | ''
 export type SearchQuery = Record<string, any>
@@ -216,7 +216,7 @@ export function createStore<T>(props: Readonly<VpTableProProps>, context: SetupC
   }
 
   const total = ref(0)
-  const list = ref<T[]>([])
+  const list = ref<T[]>()
   const isLoading = ref(false)
 
   const fetchData = useDebounceFn(async () => {
@@ -286,7 +286,6 @@ export function createStore<T>(props: Readonly<VpTableProProps>, context: SetupC
     sortOrder.value = order
 
     emit('sort-change', data)
-    console.log('sort-change', data)
     return refresh(1)
   }
 
