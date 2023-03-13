@@ -1,3 +1,4 @@
+import type { UnwrapNestedRefs } from 'vue'
 import { computed, reactive, ref, watchEffect } from 'vue'
 
 import { omit } from 'lodash'
@@ -59,7 +60,7 @@ export function defineTablePro<Row>(setup: DefineTableProSetup) {
 
   const VpTablePro = createTablePro<Row>()
 
-  const table = ref<ExposeStore<Row>>()
+  const table = ref<UnwrapNestedRefs<ExposeStore<Row>>>()
 
   const VpTableProWarp = {
     name: 'VpTableProWarp',
