@@ -35,7 +35,7 @@ export interface TableItem {
     label: string | number
     value: string | number
     /** @description 使用ElTag显示，空/success/info/warning/danger */
-    tag?: '' | 'success' | 'warning' | 'info' | 'danger' | true
+    tag?: string | true | null
   }[]
   formatter?: (
     elCtx: TableItemFormatterCtx,
