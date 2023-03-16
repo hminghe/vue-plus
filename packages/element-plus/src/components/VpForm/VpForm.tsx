@@ -34,7 +34,7 @@ export interface FormItem {
   dict?: ({
     label: string | number
     value: unknown
-  } | string)[]
+  } | string | Record<string, any>)[]
 }
 
 // 如果引入 ElForm 提供的 props 类型判断有问题, TODO: 迟点找原因
