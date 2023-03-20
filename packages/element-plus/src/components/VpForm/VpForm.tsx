@@ -31,6 +31,7 @@ export interface FormItem {
   props?: Partial<FormItemProps>
   layout?: FormItemLayout // number = col.span
   component?: Component
+  componentProps?: Record<string, any>
   dict?: ({
     label: string | number
     value: unknown
@@ -277,6 +278,7 @@ export const VpForm = defineComponent({
       const value = get(formData.value, item.key)
 
       const attrs = {
+        ...item.componentProps,
         'dict': item.dict,
         'modelValue': value,
         'onUpdate:modelValue': value => setFormValue(value, item.key),
@@ -317,7 +319,10 @@ export const VpForm = defineComponent({
           <ElRow {...computedProps.value.row}>
             {items?.map((item) => {
               return (
-                <ElCol {...getColProps(item.layout)}>
+                <ElCol
+                  {...getColProps(item.layout)}
+                  key={item.key}
+                >
                   {renderFormItem(item)}
                 </ElCol>
               )

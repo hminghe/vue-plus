@@ -52,7 +52,8 @@ function component<T extends new (...args: any) => any>(component: T, props?: In
 function component(keyOrComponent, props?) {
   const component = typeof keyOrComponent === 'string' ? formComponents[keyOrComponent] : keyOrComponent
   return {
-    component: props ? createWarpComponent(component, props) : component,
+    component,
+    componentProps: props,
   }
 }
 
