@@ -55,11 +55,13 @@ importers:
     specifiers:
       '@popperjs/core': npm:@sxzz/popperjs-es@^2.11.7
       '@vueuse/core': ^9.5.0
+      defu: ^6.1.2
       element-plus: ^2.2.0
       lodash: ^4.17.0
       vue: ^3.2.0
     dependencies:
       '@vueuse/core': 9.5.0_vue@3.2.44
+      defu: 6.1.2
       element-plus: 2.2.17_vue@3.2.44
       lodash: 4.17.21
       vue: 3.2.44
@@ -3526,6 +3528,10 @@ packages:
   /defu/6.1.0:
     resolution: {integrity: sha512-pOFYRTIhoKujrmbTRhcW5lYQLBXw/dlTwfI8IguF1QCDJOcJzNH1w+YFjxqy6BAuJrClTy6MUE8q+oKJ2FLsIw==}
     dev: true
+
+  /defu/6.1.2:
+    resolution: {integrity: sha512-+uO4+qr7msjNNWKYPHqN/3+Dx3NFkmIzayk2L1MyZQlvgZb/J1A0fo410dpKrN2SnqFjt8n4JL8fDJE0wIgjFQ==}
+    dev: false
 
   /degenerator/3.0.2:
     resolution: {integrity: sha512-c0mef3SNQo56t6urUU6tdQAs+ThoD0o9B9MJ8HEt7NQcGEILCRFqQb7ZbP9JAv+QF1Ky5plydhMR/IrqWDm+TQ==}

@@ -1,4 +1,4 @@
-import { mergeProps } from 'vue'
+import defu from 'defu'
 
 export type SimpleItem<Item> = [key: string, label: string, ...options: Partial<Item>[]]
 | [key: string, ...options: Partial<Item>[]]
@@ -13,7 +13,7 @@ export function createItems<Item>(options: SimpleItem<Item>[]) {
 
       const labelOrOption = (typeof label === 'string' ? { label } : label) as Partial<Item>
 
-      items.push(mergeProps({ key }, labelOrOption, ...options) as unknown as Item)
+      items.push(defu({ key }, labelOrOption, ...options) as unknown as Item)
     } else if (item) {
       items.push(item)
     }
