@@ -39,7 +39,7 @@ const tableProProps = {
   searchItems: Array as PropType<FormItem[]>,
 
   pagination: {
-    type: Object as PropType<Omit<PaginationProps, 'total' | 'currentPage' | 'pageSize'>>,
+    type: Object as PropType<Partial<Omit<PaginationProps, 'total' | 'currentPage' | 'pageSize'>>>,
     default: () => ({
       layout: 'total, sizes, prev, pager, next',
       background: true,
