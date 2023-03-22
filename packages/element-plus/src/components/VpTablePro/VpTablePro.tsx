@@ -1,3 +1,4 @@
+import type { PaginationProps } from 'element-plus'
 import { ElCard, ElPagination, vLoading } from 'element-plus'
 import { cloneDeep, omit } from 'lodash'
 import { defineComponent } from 'vue'
@@ -34,6 +35,14 @@ const tableProProps = {
   items: Array as PropType<TableProItem[]>,
 
   searchItems: Array as PropType<FormItem[]>,
+
+  pagination: {
+    type: Object as PropType<Omit<PaginationProps, 'total' | 'currentPage' | 'pageSize'>>,
+    default: () => ({
+      layout: 'total, sizes, prev, pager, next',
+      background: true,
+    }),
+  },
 
   api: {
     required: true,
@@ -172,8 +181,7 @@ export function createTablePro<Row>() {
 
       function renderPagination() {
         return <ElPagination
-          background
-          layout="total, sizes, prev, pager, next"
+          {...computedProps.value.pagination}
           total={ total.value }
           current-page={ pagination.value.currentPage }
           pageSize={ pagination.value.pageSize }
