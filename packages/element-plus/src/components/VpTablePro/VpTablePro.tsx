@@ -14,6 +14,8 @@ import { initProps } from '../VpConfigProvider'
 import { createStore } from './store'
 import { VpTableProSearch } from './VpTableProSearch'
 
+import './style'
+
 const tableProps = omit(vpTableProps, ['items'])
 
 const tablePropKeys = Object.keys(tableProps)
@@ -148,11 +150,11 @@ export function createTablePro<Row>() {
         const { title } = computedProps.value
 
         return (
-            <div class="vp-table-header">
+            <div class="vp-table-pro-header">
               {title && <div>{title}</div>}
               {renderSlots('table:header')}
               {<div style="flex: 1"></div>}
-              <div class="vp-table-header-buttons">
+              <div class="vp-table-pro-header-buttons">
                 {renderSlots('buttons')}
               </div>
             </div>
@@ -204,13 +206,13 @@ export function createTablePro<Row>() {
         }
 
         const search = searchItems.value.length
-          ? (<ElCard shadow="never">
+          ? (<ElCard class="vp-table-pro-search" shadow="never">
               {renderSearch()}
             </ElCard>)
           : null
 
         return (
-          <div class="vp-table">
+          <div class="vp-table-pro">
             {renderSlots('before')}
 
             {search}
@@ -228,7 +230,7 @@ export function createTablePro<Row>() {
 
               {renderTable()}
 
-              <div class="vp-table-pagination">
+              <div class="vp-table-pro-pagination">
                 {renderPagination()}
               </div>
 

@@ -13,6 +13,8 @@ import { initProps, useProps } from '../VpConfigProvider'
 import { breakpoints } from './breakpoints'
 import { input, select } from './components'
 
+import './style'
+
 export type FormItemLayout = number | {
   span?: number
   offset?: number

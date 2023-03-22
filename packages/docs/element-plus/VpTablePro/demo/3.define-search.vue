@@ -5,7 +5,6 @@
 ---
 
 <script lang="ts" setup>
-import '@vue-plus/element-plus/es/components/VpTablePro/style'
 import { ElTimeSelect } from 'element-plus'
 import { useAsyncState } from '@vueuse/core'
 import { defineItems, defineSearchItems, defineTablePro } from '@vue-plus/element-plus'

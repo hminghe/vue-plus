@@ -1,23 +1,31 @@
-.vp-table>:not([hidden])~:not([hidden]) {
+.vp-table-pro>:not([hidden])~:not([hidden]) {
   margin-top: 0.5rem;
+}
+
+.vp-table-pro-search .el-card__body {
+  padding-bottom: 2px;
+}
+
+.vp-table-pro-search .el-form > .el-row > .el-col:last-child {
+  margin-bottom: 18px;
 }
 
 .vp-table-pro-search-buttons {
   text-align: right;
 }
 
-.vp-table-pagination {
+.vp-table-pro-pagination {
   display: flex;
   margin-top: 0.5rem;
   justify-content: flex-end;
 }
 
-.vp-table-header {
+.vp-table-pro-header {
   display: flex;
   align-items: center;
 }
 
-.vp-table-header-buttons {
+.vp-table-pro-header-buttons {
   margin: -10px 0;
 }
 

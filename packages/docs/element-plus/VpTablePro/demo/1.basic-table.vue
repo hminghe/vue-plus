@@ -5,9 +5,6 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-
-import '@vue-plus/element-plus/es/components/VpTablePro/style'
-
 import { defineItems, defineTablePro } from '@vue-plus/element-plus'
 import type { TableItem } from '@vue-plus/element-plus'
 

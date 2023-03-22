@@ -11,6 +11,8 @@ import { cloneDeep } from 'lodash'
 import { useRender } from '../../shared'
 import { initProps, useProps } from '../VpConfigProvider'
 
+import './style'
+
 type ElTableColumnProps = ExtractPropTypes<typeof elTableColumnProps>
 
 export const tableSlotsPrefix = {

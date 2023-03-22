@@ -15,5 +15,3 @@ import 'element-plus/es/components/cascader/style/css'
 import 'element-plus/es/components/switch/style/css'
 import 'element-plus/es/components/tree-select/style/css'
 import 'element-plus/es/components/transfer/style/css'
-
-// import 'element-plus/theme-chalk/dark/css-vars.css'
