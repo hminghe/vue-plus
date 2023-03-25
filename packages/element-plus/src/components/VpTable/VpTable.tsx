@@ -58,6 +58,8 @@ export const vpTableProps = {
     type: Array as PropType<TableItem[]>,
   },
 
+  column: Object as PropType<TableItem['props']>,
+
   tag: {
     type: Object as PropType<Partial<TagProps>>,
   },
@@ -172,6 +174,7 @@ export const VpTable = defineComponent({
 
         return (
           <ElTableColumn
+            {...computedProps.value.column}
             {...item.props}
             prop={item.key}
             label={item.label}
