@@ -4,7 +4,7 @@ import type { FormItemProps, FormItemRule } from 'element-plus'
 import type { VNode } from 'vue'
 import { computed, defineComponent, h } from 'vue'
 import type { SimpleItem } from '../../shared'
-import { createItems, createWarpComponent } from '../../shared'
+import { createItems } from '../../shared'
 
 import * as formComponents from './components'
 import type { FormItem } from '.'
@@ -48,7 +48,7 @@ export function createRelationComponent<T>(Parent: T, Children, set?: {
 }
 
 function component(key: keyof typeof formComponents, props?: Record<string, unknown>): { component: VNode }
-function component<T extends new (...args: any) => any>(component: T, props?: InstanceType<T>['$props'] & Record<string, unknown>): { component: T }
+function component<T extends new (...args: any) => any>(component: T, props?: Partial<InstanceType<T>['$props']> & Record<string, unknown>): { component: T }
 function component(keyOrComponent, props?) {
   const component = typeof keyOrComponent === 'string' ? formComponents[keyOrComponent] : keyOrComponent
   return {
