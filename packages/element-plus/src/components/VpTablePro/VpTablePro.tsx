@@ -121,8 +121,6 @@ export function createTablePro<Row>() {
     ],
 
     setup(props, context) {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-expect-error
       const store = createStore<Row>(props, context)
 
       const {
@@ -143,10 +141,6 @@ export function createTablePro<Row>() {
 
       // renders
       function renderTableHeader() {
-        if (!context.slots.buttons && !context.slots['table:header']) {
-          return null
-        }
-
         const { title } = computedProps.value
 
         return (
@@ -211,6 +205,10 @@ export function createTablePro<Row>() {
             </ElCard>)
           : null
 
+        const cardSlots = {
+
+        }
+
         return (
           <div class="vp-table-pro">
             {renderSlots('before')}
@@ -223,7 +221,7 @@ export function createTablePro<Row>() {
               shadow="never"
               header={ computedProps.value?.title }
               v-slots={{
-                header: renderTableHeader,
+                header: context.slots.buttons || context.slots['table:header'] ? renderTableHeader : null,
               }}
             >
               {renderSlots('table:before')}
