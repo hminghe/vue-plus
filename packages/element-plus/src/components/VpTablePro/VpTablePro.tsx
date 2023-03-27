@@ -121,6 +121,8 @@ export function createTablePro<Row>() {
     ],
 
     setup(props, context) {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-expect-error
       const store = createStore<Row>(props, context)
 
       const {
@@ -204,10 +206,6 @@ export function createTablePro<Row>() {
               {renderSearch()}
             </ElCard>)
           : null
-
-        const cardSlots = {
-
-        }
 
         return (
           <div class="vp-table-pro">
