@@ -118,7 +118,7 @@ const formProps = {
    * @description ElCol 公用 props, value = number == { span: value }
    * @docs https://element-plus.org/zh-CN/component/layout.html#col-%E5%B1%9E%E6%80%A7
    * */
-  layout: Object as PropType<FormItemLayout>,
+  layout: [Object, Number] as PropType<FormItemLayout>,
 
   layoutBreakpoints: {
     type: Object as PropType<Partial<typeof breakpoints>>,
@@ -142,7 +142,7 @@ const formProps = {
     default: '提交',
   },
 
-  buttonLayout: Object as PropType<FormItemLayout>,
+  buttonLayout: [Object, Number] as PropType<FormItemLayout>,
 
   buttonAlign: String as PropType<'left' | 'center' | 'right'>,
 
