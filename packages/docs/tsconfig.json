@@ -4,7 +4,9 @@
     "allowJs": true,
     "noImplicitAny": false,
     "paths": {
-      "@/*": ["packages/docs/*"]
+      "@/*": ["packages/docs/*"],
+      "@vue-plus/element-plus": ["packages/element-plus/src/index.ts"],
+      "@vue-plus/element-plus/es/*": ["packages/element-plus/src/*"]
     }
   },
   "include": [

@@ -6,7 +6,6 @@
 ---
 
 <script setup lang="ts">
-import '@vue-plus/element-plus/es/components/VpForm/style'
 import { ref } from 'vue'
 import type { FormProps } from 'element-plus'
 import { VpForm, createFormItems } from '@vue-plus/element-plus'

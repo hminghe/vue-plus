@@ -10,8 +10,6 @@ import { VpForm, createFormItems } from '@vue-plus/element-plus'
 
 import * as formComponents from '@vue-plus/element-plus/es/components/VpForm/components'
 
-import '@vue-plus/element-plus/es/components/VpForm/style'
-
 const form = ref({})
 const items = createFormItems(({ component, layout, props, dict }) => {
   const regionDict = dict([
@@ -23,7 +21,7 @@ const items = createFormItems(({ component, layout, props, dict }) => {
   const resourceDict = dict(['线上品牌商赞助', '线下场地免费'])
 
   return [
-    ['name', '活动名称'],
+    ['name', '活动名称', { defaultValue: 'test', tip: '123', tipStyle: 'color: red' }],
     ['region', '活动区域', regionDict],
     ['date1', '活动时间', component(formComponents.date, { placeholder: '选择日期' }), layout(12)],
     ['date2', '-', component(formComponents.timeSelect, { placeholder: '选择时间' }), layout(12), props({ labelWidth: '1em' })],

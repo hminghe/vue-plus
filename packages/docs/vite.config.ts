@@ -19,7 +19,7 @@ export default defineConfig(() => {
       {
         name: 'docs-debug-score',
         transform(code) {
-          return code.replace(/'@vue\-plus\/element-plus'/g, '\'@vue-plus/element-plus/src/index.js\'')
+          return code.replace(/'@vue\-plus\/element-plus'/g, '\'@vue-plus/element-plus/src/index.js\'').replaceAll('@vue-plus/element-plus/es', '@vue-plus/element-plus/src')
         },
       },
       MarkdownTransform(),

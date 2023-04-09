@@ -9,8 +9,6 @@ import { ref } from 'vue'
 
 import { VpForm, createFormItems } from '@vue-plus/element-plus'
 
-import '@vue-plus/element-plus/es/components/VpForm/style'
-
 const form = ref({})
 const items = createFormItems(({ layout }) => {
   return [
