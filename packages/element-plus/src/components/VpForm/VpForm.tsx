@@ -1,4 +1,4 @@
-import { computed, defineComponent, h, markRaw, reactive, ref } from 'vue'
+import { computed, defineComponent, h, markRaw, reactive, ref, watch } from 'vue'
 import type { CSSProperties, Component, PropType, Ref } from 'vue'
 import { ElButton, ElCol, ElForm, ElFormItem, ElRow } from 'element-plus'
 import type { FormItemProps, FormRules, RowProps } from 'element-plus'
@@ -166,9 +166,20 @@ export const VpForm = defineComponent({
   ],
 
   setup(_props, context) {
-    const formData = ((_props.modelValue ? useVModel(_props, 'modelValue') : ref({})) as Ref<Record<string, any>>)
-
     const computedProps = useProps('form', _props)
+
+    const formData = ((_props.modelValue ? useVModel(_props, 'modelValue') : ref({})) as Ref<Record<string, any>>)
+    watch(
+      () => computedProps.value.items,
+      (items) => {
+        items?.forEach(({ defaultValue, key }) => {
+          if (defaultValue !== undefined && formData[key] === undefined) {
+            formData.value[key] = defaultValue
+          }
+        })
+      },
+      { immediate: true },
+    )
 
     const formRef = ref<InstanceType<typeof ElForm>>()
 
@@ -304,7 +315,7 @@ export const VpForm = defineComponent({
     }
 
     function renderInputComponent(item: FormItem) {
-      const value = get(formData.value, item.key) ?? item.defaultValue
+      const value = get(formData.value, item.key)
 
       const attrs = {
         ...item.componentProps,
