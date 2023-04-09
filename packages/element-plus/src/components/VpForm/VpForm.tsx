@@ -11,7 +11,7 @@ import { get, omit, set } from 'lodash'
 import { useRender } from '../../shared'
 import { initProps, useProps } from '../VpConfigProvider'
 import { breakpoints } from './breakpoints'
-import { input, select } from './components'
+import { formComponents } from './components'
 
 import './style'
 
@@ -147,7 +147,7 @@ const formProps = {
   buttonAlign: String as PropType<'left' | 'center' | 'right'>,
 
   getDefaultInputComponent: {
-    default: () => (item: FormItem): Component => item.dict ? select : input,
+    default: () => (item: FormItem): Component => item.dict ? formComponents.select : formComponents.input,
   },
 }
 initProps('form', formProps)

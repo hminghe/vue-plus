@@ -6,7 +6,7 @@ import { computed, defineComponent, h } from 'vue'
 import type { SimpleItem } from '../../shared'
 import { createItems } from '../../shared'
 
-import * as formComponents from './components'
+import { formComponents } from './components'
 import type { FormItem } from '.'
 
 export function createRelationComponent<T>(Parent: T, Children, set?: {

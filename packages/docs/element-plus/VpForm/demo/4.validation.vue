@@ -7,9 +7,7 @@
 import type { FormRules } from 'element-plus'
 import { ref } from 'vue'
 
-import { VpForm, createFormItems } from '@vue-plus/element-plus'
-
-import * as formComponents from '@vue-plus/element-plus/es/components/VpForm/components'
+import { VpForm, createFormItems, formComponents } from '@vue-plus/element-plus'
 
 const form = ref({})
 const items = createFormItems(({ layout, component, props, dict }) => {
@@ -26,7 +24,7 @@ const items = createFormItems(({ layout, component, props, dict }) => {
     ['region', '活动区域', regionDict],
     ['date1', '活动时间', component(formComponents.date, { placeholder: '选择日期' }), layout(12)],
     ['date2', '-', component(formComponents.timeSelect, { placeholder: '选择时间' }), layout(12), props({ labelWidth: '1em' })],
-    ['delivery', '即时配送', component(formComponents._switch)],
+    ['delivery', '即时配送', component(formComponents.switch)],
     ['type', '活动性质', component(formComponents.checkbox), typeDict],
     ['resource', '特殊资源', component(formComponents.radio), resourceDict],
     ['desc', '活动形式', component(formComponents.textarea)],

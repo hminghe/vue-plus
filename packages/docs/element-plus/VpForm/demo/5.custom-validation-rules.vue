@@ -8,9 +8,7 @@
 import type { FormRules } from 'element-plus'
 import { ref } from 'vue'
 
-import { VpForm, createFormItems } from '@vue-plus/element-plus'
-
-import * as formComponents from '@vue-plus/element-plus/es/components/VpForm/components'
+import { VpForm, createFormItems, formComponents } from '@vue-plus/element-plus'
 
 const form = ref<Record<string, string>>({})
 const items = createFormItems(({ component }) => [

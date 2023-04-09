@@ -122,7 +122,29 @@ const _switch: TypeElSwitch = createWarpComponent(ElSwitch, {
   inlinePrompt: true,
 })
 
-export {
+export const formComponents: {
+  input: typeof input
+  password: typeof password
+  textarea: typeof textarea
+  select: typeof select
+  selectMultiple: typeof selectMultiple
+  checkbox: typeof checkbox
+  radio: typeof radio
+  rate: typeof rate
+  date: typeof date
+  dateRange: typeof dateRange
+  dateTime: typeof dateTime
+  dateTimeRange: typeof dateTimeRange
+  time: typeof time
+  timeSelect: typeof timeSelect
+  number: typeof number
+  cascader: typeof cascader
+  color: typeof color
+  slider: typeof slider
+  switch: typeof _switch
+  treeSelect: typeof treeSelect
+  transfer: typeof transfer
+} = {
   input,
   password,
   textarea,
@@ -141,7 +163,7 @@ export {
   cascader,
   color,
   slider,
-  _switch,
+  switch: _switch,
   treeSelect,
   transfer,
 }

@@ -1,8 +1,10 @@
 import type { Component } from 'vue'
 
 import { tableSimpleUtils } from '../VpTable'
-import { dateRange, dateTimeRange, selectMultiple } from '../VpForm'
+import { formComponents } from '../VpForm'
 import type { TableProItem } from './VpTablePro'
+
+const { dateRange, dateTimeRange, selectMultiple } = formComponents
 
 export const utils = {
   ...tableSimpleUtils,
