@@ -1,4 +1,4 @@
-import { computed, defineComponent, reactive, ref } from 'vue'
+import { computed, defineComponent, h, markRaw, reactive, ref } from 'vue'
 import type { CSSProperties, Component, PropType, Ref } from 'vue'
 import { ElButton, ElCol, ElForm, ElFormItem, ElRow } from 'element-plus'
 import type { FormItemProps, FormRules, RowProps } from 'element-plus'
@@ -313,7 +313,20 @@ export const VpForm = defineComponent({
         'onUpdate:modelValue': value => setFormValue(value, item.key),
       }
 
-      const slotName = item.slot ?? `item:${item.key}`
+      const Component = h(item.component || computedProps.value.getDefaultInputComponent(item), attrs)
+
+      /**
+       * slotName 获取优先顺序
+       * 1. 有设置 formItem.slot
+       * 2. 有 `item:${item.key}` slot
+       * 3. 有 `item` slot，item 是全部 formItem 通用的
+       */
+      const slotName = item.slot
+        ? item.slot
+        : context.slots[`item:${item.key}`]
+          ? `item:${item.key}`
+          : 'item'
+
       if (context.slots[slotName]) {
         return renderSlots(slotName, {
           nativeAttrs: {
@@ -323,15 +336,11 @@ export const VpForm = defineComponent({
           attrs,
           item,
           value,
+          Component: markRaw(Component),
         })
       }
 
-      let inputComponent = item.component
-      if (!inputComponent) {
-        inputComponent = computedProps.value.getDefaultInputComponent(item)
-      }
-
-      return <inputComponent {...attrs} />
+      return Component
     }
 
     function renderContent() {
