@@ -1,5 +1,5 @@
 import { computed, defineComponent, reactive, ref } from 'vue'
-import type { Component, PropType, Ref } from 'vue'
+import type { CSSProperties, Component, PropType, Ref } from 'vue'
 import { ElButton, ElCol, ElForm, ElFormItem, ElRow } from 'element-plus'
 import type { FormItemProps, FormRules, RowProps } from 'element-plus'
 
@@ -34,6 +34,20 @@ export interface FormItem {
   layout?: FormItemLayout // number = col.span
   component?: Component
   componentProps?: Record<string, any>
+
+  /**
+   * 默认值
+   */
+  defaultValue?: any
+
+  /**
+   * 提示
+   */
+  tip?: string
+  /**
+   * 提示样式
+   */
+  tipStyle?: CSSProperties
   dict?: ({
     label: string | number
     value: unknown
@@ -272,12 +286,25 @@ export const VpForm = defineComponent({
           label={item.label}
         >
           {renderInputComponent(item)}
+          { item.tip && <div
+            class="vp-form__tip"
+            style={[
+              {
+                marginTop: '2px',
+                lineHeight: 1,
+                fontSize: '13px',
+                color: 'var(--el-text-color-placeholder)',
+              },
+              item.tipStyle || '',
+            ]}
+          >{ item.tip }</div> }
+
         </ElFormItem>
       )
     }
 
     function renderInputComponent(item: FormItem) {
-      const value = get(formData.value, item.key)
+      const value = get(formData.value, item.key) ?? item.defaultValue
 
       const attrs = {
         ...item.componentProps,
