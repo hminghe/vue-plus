@@ -36,7 +36,7 @@ export function defineItems(items: SimpleItem<TableProItem>[]) {
 export function defineSearchItems(searchItems: SimpleItem<TableProItem>[]) {
   // TableProItem 转 FormItem
   const items = createItems(searchItems)
-  items.map((item) => {
+  currentContext.searchItems = items.map((item) => {
     const baseItem = omit(item, ['search'])
     return {
       ...baseItem,
