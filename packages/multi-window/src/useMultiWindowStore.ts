@@ -91,10 +91,11 @@ export const useMultiWindowStore = defineStore('multiWindow', () => {
     } = to
 
     const key = `${fullPath}-${Date.now().toString()}`
+    const windowName = (meta.title ? meta.title : typeof meta.name === 'string' ? meta.name : '未设置名称') as string
     const window = reactive({
       key,
       fullPath,
-      name: typeof meta.name === 'string' ? meta.name : '未设置名称',
+      name: windowName,
       scrollTop: 0,
       scrollLeft: 0,
       refreshKey: 1,
